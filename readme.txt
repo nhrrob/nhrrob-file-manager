@@ -1,6 +1,6 @@
-=== NHR Secure | Protect Admin Area ===
+=== NHR File Manager | Browse and Edit WordPress Files ===
 Contributors: nhrrob
-Tags: file manager, edit files, browse files, manage files, advanced file manager
+Tags: file manager, edit files, browse files, manage files, file editor
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
@@ -8,53 +8,81 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A lightweight WordPress file manager plugin that helps you browse and edit WordPress files with ease.
+A modern, React-powered file manager for WordPress administrators. Browse and edit plugin, theme, and wp-content files with a sleek, fast interface.
 
 == Description ==
 
-Keep your WordPress site safe with minimal effort. NHR File Manager helps you:
+🚀 [GitHub Repository](https://github.com/nhrrob/nhrrob-file-manager) – Found a bug or have a feature request? Let us know!
+💬 [Slack Community](https://join.slack.com/t/nhrrob/shared_invite/zt-2m3nyrl1f-eKv7wwJzsiALcg0nY6~e0Q) – Got questions or just want to chat? Come hang out with us on Slack!
 
-- Browse and edit WordPress files with ease.
+NHR File Manager is a lightweight, modern file manager designed specifically for WordPress administrators. Built with React for a blazing-fast user experience.
 
-**Features at a glance:**
+`<?php echo 'Edit Your WordPress Files Like a Pro!'; ?>`
 
-### ⚡ Browse and Edit Files
-Easily browse and edit WordPress files with a clean and user-friendly interface.
+### ✨ Key Features
 
-### 🌟 Lightweight & Minimal
-Designed to deliver maximum security with minimal code. No complex settings or configuration needed.
+- **React-Powered UI** – Modern, fast, and responsive interface built with React
+- **File Tree Navigation** – Browse through your plugins, themes, and wp-content directories with ease
+- **Syntax Highlighting** – Edit PHP, JavaScript, CSS, and more with a beautiful code editor
+- **Instant Search** – Quickly find files using the built-in search functionality
+- **Real-time Save** – Save files with Ctrl+S (Cmd+S on Mac) keyboard shortcut
+- **File Information** – View file size, extension, and last modified date
 
-### 💬 Simple & Effective
-Install, activate, and your site is protected instantly.
+### 🔒 Security First
+
+- Only administrators can access the file manager
+- Protected core WordPress directories (wp-admin, wp-includes)
+- Restricted to safe, editable file types
+- Full WordPress REST API security with nonce verification
+
+### � Supported File Types
+
+PHP, JavaScript, JSX, TypeScript, CSS, SCSS, HTML, JSON, XML, TXT, Markdown, YAML, SQL, and more!
 
 == Installation ==
 
-1. Upload the `nhrrob-secure` plugin folder to your `/wp-content/plugins/` directory.
+1. Upload the `nhrrob-file-manager` plugin folder to your `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Protection starts automatically — no configuration required.
+3. Navigate to **Tools → File Manager** to start managing your files.
 
+That's it! No configuration required.
 
 == Frequently Asked Questions ==
 
-= Do I need other plugins? =
-No. NHR Secure is standalone and works independently.
+= Who can access the file manager? =
+Only users with the `manage_options` capability (typically administrators) can access the file manager.
+
+= What file types can I edit? =
+You can edit PHP, JS, JSX, TS, TSX, CSS, SCSS, LESS, HTML, JSON, XML, TXT, MD, YAML, SQL, and several other text-based file formats.
+
+= Is it safe to edit plugin files directly? =
+While the plugin provides safeguards, we recommend always keeping backups before editing any files. A syntax error in a PHP file could make your site inaccessible.
+
+= Can I edit WordPress core files? =
+No, for security reasons, wp-admin and wp-includes directories are protected and cannot be modified.
 
 = Will it affect my site performance? =
-No. NHR Secure is lightweight and designed to have minimal impact on your WordPress performance.
-
+No. The file manager only loads on its dedicated admin page and has zero impact on your frontend performance.
 
 == Screenshots ==
 
-1. Browse and edit WordPress files with ease.
-
+1. Modern file tree with folder expansion
+2. Code editor with syntax highlighting
+3. Search functionality for quick file access
+4. File information in the status bar
 
 == Changelog ==
 
 = 1.0.0 - 30/11/2025 =
-- Initial beta release. Cheers!
-
+- Initial release
+- React-powered file browser
+- File tree navigation for plugins, themes, and wp-content
+- Built-in code editor with tab support
+- File search functionality
+- Keyboard shortcuts (Ctrl+S / Cmd+S to save)
+- Status bar with file information
 
 == Upgrade Notice ==
 
 = 1.0.0 =
-- This is the initial release. Feel free to share any feature request at the plugin support forum page.
+Initial release. Welcome to NHR File Manager!

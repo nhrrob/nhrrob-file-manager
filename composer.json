@@ -1,0 +1,24 @@
+{
+    "name": "nhrfm/file-manager",
+    "description": "Browse and edit WordPress files with ease. Modern React-powered file manager.",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Nhrrob",
+            "email": "admin@admin.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Nhrfm\\FileManager\\": "includes/"
+        }
+    },
+    "scripts": {
+        "deploy": "composer install --no-dev && wp dist-archive . && composer install",
+        "dev": "composer install",
+        "build": "composer install --no-dev"
+    }
+}
+
