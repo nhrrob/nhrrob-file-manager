@@ -46,6 +46,12 @@ class FileApi extends App {
             'callback'            => [ $this, 'delete_file' ],
             'permission_callback' => [ $this, 'check_permission' ],
         ]);
+
+        register_rest_route( $this->namespace, '/validate-php', [
+            'methods'             => 'POST',
+            'callback'            => [ $this, 'validate_php' ],
+            'permission_callback' => [ $this, 'check_permission' ],
+        ]);
     }
 
     /**
@@ -123,7 +129,8 @@ class FileApi extends App {
                 'name'      => 'wp-config.php',
                 'isFolder'  => false,
                 'extension' => 'php',
-                'size'      => filesize( $wpconfig_path ),
+                'size'      => file_exists( $wpconfig_path ) ? filesize( $wpconfig_path ) : 0,
+                'sensitive' => true,
             ]
         ], 200 );
     }
@@ -499,6 +506,139 @@ class FileApi extends App {
         }
 
         return rmdir( $dir );
+    }
+
+    /**
+     * Validate PHP syntax
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response
+     */
+    public function validate_php( WP_REST_Request $request ) {
+        $code = $request->get_param( 'code' );
+
+        if ( empty( $code ) ) {
+            return new WP_REST_Response([
+                'valid' => true,
+                'errors' => [],
+            ], 200 );
+        }
+
+        $errors = [];
+
+        // Use PHP's built-in linter (php -l) via shell_exec if available
+        // Otherwise, use a temporary file approach
+        if ( function_exists( 'shell_exec' ) && ! empty( shell_exec( 'which php' ) ) ) {
+            // Create temporary file
+            $temp_file = tempnam( sys_get_temp_dir(), 'php_validate_' );
+            file_put_contents( $temp_file, $code );
+
+            // Run php -l
+            $output = shell_exec( "php -l {$temp_file} 2>&1" );
+            unlink( $temp_file );
+
+            if ( strpos( $output, 'No syntax errors' ) === false ) {
+                // Parse error message
+                preg_match( '/PHP Parse error:\s+(.+?)\s+in\s+.+?\s+on\s+line\s+(\d+)/i', $output, $matches );
+                if ( ! empty( $matches ) ) {
+                    $errors[] = [
+                        'line' => (int) $matches[2],
+                        'column' => 1,
+                        'message' => trim( $matches[1] ),
+                    ];
+                } else {
+                    // Fallback: extract line number if available
+                    preg_match( '/on line (\d+)/i', $output, $line_matches );
+                    $line = ! empty( $line_matches ) ? (int) $line_matches[1] : 1;
+                    $errors[] = [
+                        'line' => $line,
+                        'column' => 1,
+                        'message' => 'Syntax error detected',
+                    ];
+                }
+            }
+        } else {
+            // Fallback: Use tokenizer for basic validation
+            $tokens = @token_get_all( $code );
+            $open_braces = 0;
+            $open_parens = 0;
+            $open_brackets = 0;
+            $line_number = 1;
+
+            foreach ( $tokens as $token ) {
+                if ( is_array( $token ) ) {
+                    $line_number = $token[2];
+                }
+
+                $token_string = is_array( $token ) ? $token[1] : $token;
+
+                switch ( $token_string ) {
+                    case '{':
+                        $open_braces++;
+                        break;
+                    case '}':
+                        $open_braces--;
+                        break;
+                    case '(':
+                        $open_parens++;
+                        break;
+                    case ')':
+                        $open_parens--;
+                        break;
+                    case '[':
+                        $open_brackets++;
+                        break;
+                    case ']':
+                        $open_brackets--;
+                        break;
+                }
+
+                if ( $open_braces < 0 || $open_parens < 0 || $open_brackets < 0 ) {
+                    $errors[] = [
+                        'line' => $line_number,
+                        'column' => 1,
+                        'message' => 'Mismatched brackets, braces, or parentheses',
+                    ];
+                    break;
+                }
+            }
+
+            // Check for unclosed brackets
+            if ( $open_braces > 0 ) {
+                $errors[] = [
+                    'line' => $line_number,
+                    'column' => 1,
+                    'message' => 'Unclosed brace',
+                ];
+            }
+
+            if ( $open_parens > 0 ) {
+                $errors[] = [
+                    'line' => $line_number,
+                    'column' => 1,
+                    'message' => 'Unclosed parenthesis',
+                ];
+            }
+
+            if ( $open_brackets > 0 ) {
+                $errors[] = [
+                    'line' => $line_number,
+                    'column' => 1,
+                    'message' => 'Unclosed bracket',
+                ];
+            }
+
+            // Try to parse PHP tags
+            if ( strpos( $code, '<?php' ) === false && strpos( $code, '<?=' ) === false && strpos( $code, '<?' ) === false ) {
+                // No PHP tags, but might be valid PHP in context
+                // Skip this check for now
+            }
+        }
+
+        return new WP_REST_Response([
+            'valid' => empty( $errors ),
+            'errors' => $errors,
+        ], 200 );
     }
 }
 

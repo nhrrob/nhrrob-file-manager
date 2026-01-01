@@ -47,6 +47,7 @@ class Menu extends App
     public function enqueue_assets()
     {
         wp_enqueue_style('nhrfm-admin-style');
+        wp_enqueue_script('monaco-editor-loader');
         wp_enqueue_script('nhrfm-admin-script');
     }
 
