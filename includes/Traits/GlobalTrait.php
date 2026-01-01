@@ -50,7 +50,7 @@ trait GlobalTrait
 
     /**
      * Get allowed file extensions for editing
-     * 
+     *
      * @return array
      */
     public function get_allowed_extensions() {
@@ -62,8 +62,41 @@ trait GlobalTrait
     }
 
     /**
+     * Get read-only file extensions (can view but not edit)
+     *
+     * @return array
+     */
+    public function get_readonly_extensions() {
+        return [
+            'log'
+        ];
+    }
+
+    /**
+     * Get all viewable extensions (editable + read-only)
+     *
+     * @return array
+     */
+    public function get_viewable_extensions() {
+        return array_merge(
+            $this->get_allowed_extensions(),
+            $this->get_readonly_extensions()
+        );
+    }
+
+    /**
+     * Check if file extension is read-only
+     *
+     * @param string $extension
+     * @return bool
+     */
+    public function is_readonly_extension( $extension ) {
+        return in_array( strtolower( $extension ), $this->get_readonly_extensions() );
+    }
+
+    /**
      * Get protected directories that cannot be modified
-     * 
+     *
      * @return array
      */
     public function get_protected_directories() {

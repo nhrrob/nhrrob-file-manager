@@ -338,3 +338,126 @@
     background: #8c8f94;
 }
 
+/* Read-only and Sensitive file badges */
+.nhrfm-readonly-badge,
+.nhrfm-sensitive-badge {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    opacity: 0.6;
+}
+
+.nhrfm-readonly-badge svg,
+.nhrfm-sensitive-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+.nhrfm-sensitive-badge {
+    color: #dba617;
+}
+
+.nhrfm-tree-item.readonly .name,
+.nhrfm-tree-item.sensitive .name {
+    font-style: italic;
+}
+
+/* Delete button in tree */
+.nhrfm-delete-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    margin-left: 4px;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+}
+
+.nhrfm-tree-item:hover .nhrfm-delete-btn {
+    display: flex;
+}
+
+.nhrfm-delete-btn:hover {
+    opacity: 1;
+    color: #d63638;
+}
+
+.nhrfm-delete-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Delete confirmation */
+.nhrfm-delete-confirm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: #fff8e5;
+    border-radius: 4px;
+    margin: 4px 0;
+    font-size: 12px;
+    color: #50575e;
+}
+
+.nhrfm-confirm-yes,
+.nhrfm-confirm-no {
+    padding: 2px 8px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.nhrfm-confirm-yes {
+    background: #d63638;
+    color: #fff;
+    border-color: #d63638;
+}
+
+.nhrfm-confirm-yes:hover {
+    background: #b32d2e;
+}
+
+.nhrfm-confirm-no {
+    background: #f6f7f7;
+}
+
+.nhrfm-confirm-no:hover {
+    background: #e0e0e0;
+}
+
+/* Read-only badge in editor header */
+.nhrfm-file-readonly {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff8e5;
+    color: #996800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+.nhrfm-file-readonly svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Read-only editor styling */
+.nhrfm-code-editor[readonly] {
+    background: #2d2d2d;
+    cursor: default;
+}
+
+/* Select optgroup styling */
+.nhrfm-type-select optgroup {
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.nhrfm-type-select option {
+    font-weight: 400;
+    padding: 4px 8px;
+}
+

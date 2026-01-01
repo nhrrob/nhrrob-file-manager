@@ -32,6 +32,12 @@
         search: el('svg', { viewBox: '0 0 24 24', fill: 'currentColor', width: 16, height: 16 },
             el('path', { d: 'M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z' })
         ),
+        trash: el('svg', { viewBox: '0 0 24 24', fill: 'currentColor', width: 16, height: 16 },
+            el('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
+        ),
+        lock: el('svg', { viewBox: '0 0 24 24', fill: 'currentColor', width: 16, height: 16 },
+            el('path', { d: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z' })
+        ),
     };
 
     // Toast notification helper
@@ -61,14 +67,16 @@
             json: '#000000',
             md: '#083FA1',
             txt: '#666666',
+            log: '#8B4513',
         };
         return colors[extension] || '#666666';
     }
 
     // Tree Item Component
-    function TreeItem({ item, depth, selectedFile, onSelectFile, expandedFolders, onToggleFolder }) {
+    function TreeItem({ item, depth, selectedFile, onSelectFile, expandedFolders, onToggleFolder, onDeleteItem, fileType }) {
         const isExpanded = expandedFolders.has(item.id);
         const isSelected = selectedFile === item.id;
+        const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
         const handleClick = useCallback(() => {
             if (item.isFolder) {
@@ -78,9 +86,28 @@
             }
         }, [item, onSelectFile, onToggleFolder]);
 
+        const handleDeleteClick = useCallback((e) => {
+            e.stopPropagation();
+            setShowDeleteConfirm(true);
+        }, []);
+
+        const handleConfirmDelete = useCallback((e) => {
+            e.stopPropagation();
+            onDeleteItem(item.id, item.isFolder);
+            setShowDeleteConfirm(false);
+        }, [item, onDeleteItem]);
+
+        const handleCancelDelete = useCallback((e) => {
+            e.stopPropagation();
+            setShowDeleteConfirm(false);
+        }, []);
+
+        // Don't show delete for wp-config or sensitive files
+        const canDelete = fileType !== 'wp-config' && !item.sensitive;
+
         return el(Fragment, null,
             el('div', {
-                className: `nhrfm-tree-item ${isSelected ? 'selected' : ''}`,
+                className: `nhrfm-tree-item ${isSelected ? 'selected' : ''} ${item.readOnly ? 'readonly' : ''} ${item.sensitive ? 'sensitive' : ''}`,
                 style: { paddingLeft: depth * 16 + 8 },
                 onClick: handleClick,
             },
@@ -92,7 +119,23 @@
                     className: 'icon',
                     style: { color: item.isFolder ? '#8B7355' : getFileColor(item.extension) }
                 }, item.isFolder ? (isExpanded ? Icons.folderOpen : Icons.folder) : Icons.file),
-                el('span', { className: 'name' }, item.name)
+                el('span', { className: 'name' }, item.name),
+                item.readOnly && el('span', { className: 'nhrfm-readonly-badge', title: 'Read-only' }, Icons.lock),
+                item.sensitive && el('span', { className: 'nhrfm-sensitive-badge', title: 'Sensitive file' }, Icons.warning),
+                canDelete && el('span', {
+                    className: 'nhrfm-delete-btn',
+                    onClick: handleDeleteClick,
+                    title: 'Delete'
+                }, Icons.trash)
+            ),
+            showDeleteConfirm && el('div', {
+                className: 'nhrfm-delete-confirm',
+                style: { paddingLeft: depth * 16 + 24 },
+                onClick: (e) => e.stopPropagation()
+            },
+                el('span', null, `Delete "${item.name}"?`),
+                el('button', { className: 'nhrfm-confirm-yes', onClick: handleConfirmDelete }, 'Yes'),
+                el('button', { className: 'nhrfm-confirm-no', onClick: handleCancelDelete }, 'No')
             ),
             item.isFolder && isExpanded && item.children && el('div', { className: 'nhrfm-tree-children' },
                 item.children.map(child =>
@@ -104,6 +147,8 @@
                         onSelectFile,
                         expandedFolders,
                         onToggleFolder,
+                        onDeleteItem,
+                        fileType,
                     })
                 )
             )
@@ -111,7 +156,7 @@
     }
 
     // File Tree Component
-    function FileTree({ files, selectedFile, onSelectFile, loading, searchQuery }) {
+    function FileTree({ files, selectedFile, onSelectFile, loading, searchQuery, onDeleteItem, fileType }) {
         const [expandedFolders, setExpandedFolders] = useState(new Set());
 
         const toggleFolder = useCallback((folderId) => {
@@ -129,7 +174,7 @@
         // Filter files based on search query
         const filterFiles = useCallback((items, query) => {
             if (!query) return items;
-            
+
             return items.reduce((acc, item) => {
                 if (item.isFolder && item.children) {
                     const filteredChildren = filterFiles(item.children, query);
@@ -162,6 +207,8 @@
                     onSelectFile,
                     expandedFolders,
                     onToggleFolder: toggleFolder,
+                    onDeleteItem,
+                    fileType,
                 })
             )
         );
@@ -206,6 +253,10 @@
         const [saving, setSaving] = useState(false);
         const [loadingFile, setLoadingFile] = useState(false);
         const [searchQuery, setSearchQuery] = useState('');
+        const [deleting, setDeleting] = useState(false);
+
+        // Determine if current file is read-only
+        const isReadOnly = fileInfo?.readOnly || false;
 
         // Load file tree
         const loadFiles = useCallback(async () => {
@@ -252,7 +303,7 @@
 
         // Save file
         const handleSave = useCallback(async () => {
-            if (!selectedFile || saving) return;
+            if (!selectedFile || saving || isReadOnly) return;
 
             setSaving(true);
             try {
@@ -273,21 +324,64 @@
             } finally {
                 setSaving(false);
             }
-        }, [selectedFile, fileContent, fileType, saving]);
+        }, [selectedFile, fileContent, fileType, saving, isReadOnly]);
+
+        // Delete file or folder
+        const handleDelete = useCallback(async (path, isFolder) => {
+            if (deleting) return;
+
+            setDeleting(true);
+            try {
+                await apiFetch({
+                    path: `nhrfm/v1/file?path=${encodeURIComponent(path)}&type=${fileType}`,
+                    method: 'DELETE',
+                });
+                showToast(isFolder ? 'Folder deleted successfully' : 'File deleted successfully', 'success');
+
+                // Clear selection if deleted file was selected
+                if (selectedFile === path) {
+                    setSelectedFile(null);
+                    setFileContent('');
+                    setFileInfo(null);
+                }
+
+                // Reload file tree
+                loadFiles();
+            } catch (error) {
+                console.error('Failed to delete:', error);
+                showToast(error.message || 'Failed to delete item', 'error');
+            } finally {
+                setDeleting(false);
+            }
+        }, [fileType, deleting, selectedFile, loadFiles]);
 
         // Keyboard shortcut for save
         useEffect(() => {
             const handleKeyboard = (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key === 's') {
                     e.preventDefault();
-                    handleSave();
+                    if (!isReadOnly) {
+                        handleSave();
+                    }
                 }
             };
             document.addEventListener('keydown', handleKeyboard);
             return () => document.removeEventListener('keydown', handleKeyboard);
-        }, [handleSave]);
+        }, [handleSave, isReadOnly]);
 
         const isModified = fileContent !== originalContent;
+
+        // File type options with grouping
+        const fileTypeOptions = [
+            { group: 'WordPress Content', options: [
+                { value: 'plugins', label: 'Plugins' },
+                { value: 'themes', label: 'Themes' },
+                { value: 'wp-content', label: 'WP Content' },
+            ]},
+            { group: 'WordPress Root', options: [
+                { value: 'wp-config', label: 'wp-config.php' },
+            ]},
+        ];
 
         return el('div', { className: 'nhrfm-main' },
             // Sidebar
@@ -304,12 +398,16 @@
                             setFileInfo(null);
                         },
                     },
-                        el('option', { value: 'plugins' }, 'Plugins'),
-                        el('option', { value: 'themes' }, 'Themes'),
-                        el('option', { value: 'wp-content' }, 'WP Content')
+                        fileTypeOptions.map(group =>
+                            el('optgroup', { key: group.group, label: group.group },
+                                group.options.map(opt =>
+                                    el('option', { key: opt.value, value: opt.value }, opt.label)
+                                )
+                            )
+                        )
                     )
                 ),
-                el('div', { className: 'nhrfm-search' },
+                fileType !== 'wp-config' && el('div', { className: 'nhrfm-search' },
                     el('input', {
                         type: 'text',
                         placeholder: 'Search files...',
@@ -323,6 +421,8 @@
                     onSelectFile: handleSelectFile,
                     loading,
                     searchQuery,
+                    onDeleteItem: handleDelete,
+                    fileType,
                 })
             ),
             // Editor Panel
@@ -331,10 +431,11 @@
                     el('div', { className: 'nhrfm-editor-header' },
                         el('div', { className: 'nhrfm-file-info' },
                             el('span', { className: 'nhrfm-file-path' }, selectedFile),
-                            isModified && el('span', { className: 'nhrfm-file-modified' }, 'Modified')
+                            isReadOnly && el('span', { className: 'nhrfm-file-readonly' }, Icons.lock, 'Read-only'),
+                            isModified && !isReadOnly && el('span', { className: 'nhrfm-file-modified' }, 'Modified')
                         ),
                         el('div', { className: 'nhrfm-editor-actions' },
-                            el(Button, {
+                            !isReadOnly && el(Button, {
                                 className: 'nhrfm-btn nhrfm-btn-primary',
                                 onClick: handleSave,
                                 disabled: !isModified || saving,
@@ -348,10 +449,11 @@
                         ) : el(CodeEditor, {
                             content: fileContent,
                             onChange: setFileContent,
+                            readOnly: isReadOnly,
                         })
                     ),
                     fileInfo && el('div', { className: 'nhrfm-status-bar' },
-                        el('span', null, `${fileInfo.extension.toUpperCase()} • ${formatBytes(fileInfo.size)}`),
+                        el('span', null, `${fileInfo.extension.toUpperCase()} • ${formatBytes(fileInfo.size)}${isReadOnly ? ' • Read-only' : ''}`),
                         el('span', null, `Last modified: ${new Date(fileInfo.modified * 1000).toLocaleString()}`)
                     )
                 ) : el('div', { className: 'nhrfm-placeholder' },
