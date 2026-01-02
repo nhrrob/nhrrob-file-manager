@@ -2,6 +2,10 @@
 
 namespace Nhrfm\FileManager;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * The admin class
  */

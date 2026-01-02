@@ -2,6 +2,10 @@
 
 namespace Nhrfm\FileManager;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Assets handler class
  */

@@ -2,6 +2,10 @@
 
 namespace Nhrfm\FileManager\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 use Nhrfm\FileManager\App;
 
 /**

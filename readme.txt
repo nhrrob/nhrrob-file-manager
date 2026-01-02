@@ -4,11 +4,11 @@ Tags: file manager, edit files, browse files, wp-config.php editor, vs code edit
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A modern, React-powered file manager (plugins, themes, wp-content, and wp-config.php) for WordPress administrators. Browse and edit plugin, theme, and wp-content files with a sleek, fast interface and VS Code-like code editor.
+A modern, React-powered file manager (plugins, themes, wp-content, wp-config.php) with a sleek interface and VS Code-like code editor.
 
 == Description ==
 
@@ -73,6 +73,9 @@ No. The file manager only loads on its dedicated admin page and has zero impact 
 4. File information in the status bar
 
 == Changelog ==
+
+= 1.0.2 - 02/01/2026 =
+- Fixed: PCP plugin issues
 
 = 1.0.1 - 02/01/2026 =
 - composer.json file added
