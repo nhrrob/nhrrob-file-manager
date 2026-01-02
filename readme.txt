@@ -1,6 +1,6 @@
 === NHR File Manager | Browse and Edit Files ===
 Contributors: nhrrob
-Tags: file manager, edit files, browse files, manage files, file editor
+Tags: file manager, edit files, browse files, wp-config.php editor, vs code editor
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
@@ -25,8 +25,9 @@ NHR File Manager is a lightweight, modern file manager designed specifically for
 - **File Tree Navigation** – Browse through your plugins, themes, and wp-content directories with ease
 - **Syntax Highlighting** – Edit PHP, JavaScript, CSS, and more with a beautiful code editor
 - **Instant Search** – Quickly find files using the built-in search functionality
-- **Real-time Save** – Save files with Ctrl+S (Cmd+S on Mac) keyboard shortcut
 - **File Information** – View file size, extension, and last modified date
+- **wp-config.php file editor** – Edit your wp-config.php file with a beautiful code editor
+- **VS Code-like code editor** with features like auto-completion, code folding, and more
 
 ### 🔒 Security First
 
