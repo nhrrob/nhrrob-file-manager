@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: NHR File Manager | Browse and Edit WordPress Files
+ * Plugin Name: NHR File Manager | Browse and Edit Files
  * Plugin URI: http://wordpress.org/plugins/nhrrob-file-manager/
  * Description: Browse and edit WordPress files with ease. Modern React-powered file manager for WordPress administrators.
  * Author: Nazmul Hasan Robin

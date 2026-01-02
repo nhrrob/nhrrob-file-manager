@@ -301,7 +301,7 @@ class FileApi extends App {
 
         $wpconfig_path = ABSPATH . 'wp-config.php';
 
-        if ( ! file_exists( $wpconfig_path ) || ! is_writable( $wpconfig_path ) ) {
+        if ( ! file_exists( $wpconfig_path ) || ! wp_is_writable( $wpconfig_path ) ) {
             return new WP_Error( 'file_not_writable', __( 'wp-config.php not found or not writable', 'nhrrob-file-manager' ), [ 'status' => 403 ] );
         }
 
@@ -366,7 +366,7 @@ class FileApi extends App {
             return new WP_Error( 'invalid_path', __( 'Invalid file path', 'nhrrob-file-manager' ), [ 'status' => 403 ] );
         }
 
-        if ( ! is_file( $real_path ) || ! is_writable( $real_path ) ) {
+        if ( ! is_file( $real_path ) || ! wp_is_writable( $real_path ) ) {
             return new WP_Error( 'file_not_writable', __( 'File not found or not writable', 'nhrrob-file-manager' ), [ 'status' => 403 ] );
         }
 
@@ -466,7 +466,7 @@ class FileApi extends App {
             $result = $this->delete_directory_recursive( $real_path );
         } else {
             // Delete single file
-            $result = unlink( $real_path );
+            $result = wp_delete_file( $real_path );
         }
 
         if ( ! $result ) {
@@ -501,11 +501,11 @@ class FileApi extends App {
             if ( is_dir( $path ) ) {
                 $this->delete_directory_recursive( $path );
             } else {
-                unlink( $path );
+                wp_delete_file( $path );
             }
         }
 
-        return rmdir( $dir );
+        return wp_delete_dir( $dir );
     }
 
     /**
@@ -535,7 +535,7 @@ class FileApi extends App {
 
             // Run php -l
             $output = shell_exec( "php -l {$temp_file} 2>&1" );
-            unlink( $temp_file );
+            wp_delete_file( $temp_file );
 
             if ( strpos( $output, 'No syntax errors' ) === false ) {
                 // Parse error message

@@ -1,4 +1,4 @@
-=== NHR File Manager | Browse and Edit WordPress Files ===
+=== NHR File Manager | Browse and Edit Files ===
 Contributors: nhrrob
 Tags: file manager, edit files, browse files, manage files, file editor
 Requires at least: 6.0
