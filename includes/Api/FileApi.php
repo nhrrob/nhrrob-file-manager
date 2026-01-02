@@ -129,7 +129,7 @@ class FileApi extends App {
                 'name'      => 'wp-config.php',
                 'isFolder'  => false,
                 'extension' => 'php',
-                'size'      => file_exists( $wpconfig_path ) ? filesize( $wpconfig_path ) : 0,
+                'size'      => filesize( $wpconfig_path ),
                 'sensitive' => true,
             ]
         ], 200 );

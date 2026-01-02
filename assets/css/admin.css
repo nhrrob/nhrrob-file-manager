@@ -173,7 +173,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 400px; /* Ensure minimum height for editor */
+    min-height: 500px; /* Ensure minimum height for editor */
     position: relative;
 }
 
@@ -236,7 +236,7 @@
     height: 100%;
     position: relative;
     background: #1e1e1e;
-    min-height: 400px;
+    min-height: 500px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -260,24 +260,6 @@
     background: #1e1e1e;
     color: #d4d4d4;
     font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-}
-
-/* Legacy textarea fallback */
-.nhrfm-code-editor {
-    width: 100%;
-    height: 100%;
-    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    padding: 16px;
-    border: none;
-    resize: none;
-    background: #1e1e1e;
-    color: #d4d4d4;
-}
-
-.nhrfm-code-editor:focus {
-    outline: none;
 }
 
 /* Buttons */
