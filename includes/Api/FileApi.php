@@ -489,23 +489,18 @@ class FileApi extends App {
      * @return bool
      */
     private function delete_directory_recursive( $dir ) {
-        if ( ! is_dir( $dir ) ) {
-            return false;
+        global $wp_filesystem;
+
+        if ( empty( $wp_filesystem ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            WP_Filesystem();
         }
 
-        $items = array_diff( scandir( $dir ), [ '.', '..' ] );
-
-        foreach ( $items as $item ) {
-            $path = $dir . '/' . $item;
-
-            if ( is_dir( $path ) ) {
-                $this->delete_directory_recursive( $path );
-            } else {
-                \wp_delete_file( $path );
-            }
+        if ( $wp_filesystem ) {
+            return $wp_filesystem->delete( $dir, true );
         }
 
-        return rmdir( $dir );
+        return false;
     }
 
     /**
