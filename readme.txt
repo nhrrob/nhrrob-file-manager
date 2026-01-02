@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A modern, React-powered file manager for WordPress administrators. Browse and edit plugin, theme, and wp-content files with a sleek, fast interface.
+A modern, React-powered file manager (plugins, themes, wp-content, and wp-config.php) for WordPress administrators. Browse and edit plugin, theme, and wp-content files with a sleek, fast interface and VS Code-like code editor.
 
 == Description ==
 
