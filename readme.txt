@@ -73,14 +73,15 @@ No. The file manager only loads on its dedicated admin page and has zero impact 
 
 == Changelog ==
 
-= 1.0.0 - 30/11/2025 =
+= 1.0.0 - 02/01/2026 =
 - Initial release
 - React-powered file browser
 - File tree navigation for plugins, themes, and wp-content
-- Built-in code editor with tab support
+- Syntax highlighting for all popular file types
+- VS Code-like code editor with features like auto-completion, code folding, and more
 - File search functionality
-- Keyboard shortcuts (Ctrl+S / Cmd+S to save)
 - Status bar with file information
+- Beautiful and modern UI
 
 == Upgrade Notice ==
 

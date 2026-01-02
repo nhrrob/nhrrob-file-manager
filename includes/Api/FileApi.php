@@ -466,7 +466,7 @@ class FileApi extends App {
             $result = $this->delete_directory_recursive( $real_path );
         } else {
             // Delete single file
-            $result = wp_delete_file( $real_path );
+            $result = \wp_delete_file( $real_path );
         }
 
         if ( ! $result ) {
@@ -501,11 +501,11 @@ class FileApi extends App {
             if ( is_dir( $path ) ) {
                 $this->delete_directory_recursive( $path );
             } else {
-                wp_delete_file( $path );
+                \wp_delete_file( $path );
             }
         }
 
-        return wp_delete_dir( $dir );
+        return rmdir( $dir );
     }
 
     /**
@@ -535,7 +535,7 @@ class FileApi extends App {
 
             // Run php -l
             $output = shell_exec( "php -l {$temp_file} 2>&1" );
-            wp_delete_file( $temp_file );
+            \wp_delete_file( $temp_file );
 
             if ( strpos( $output, 'No syntax errors' ) === false ) {
                 // Parse error message
