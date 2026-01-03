@@ -1,15 +1,183 @@
 /* NHR File Manager - Admin Styles */
 
+/* Base Layout - Embedded Mode (Default) */
 .nhrfm-wrap {
-    margin: 20px 20px 20px 0;
+    margin: 20px 0 0 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height: 600px;
+    /* Default height in embedded mode */
+    z-index: 99;
+    box-sizing: border-box;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Full Screen Mode */
+.nhrfm-wrap.nhrfm-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    /* Above everything including WP Admin Bar */
+    margin: 0;
+    border: none;
 }
 
 .nhrfm-app-container {
-    background: #fff;
-    border: 1px solid #c3c4c7;
+    background: #1e1e1e;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column !important;
+    /* Changed to column to include Top Bar */
+    color: #cccccc;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Top Bar */
+.nhrfm-top-bar {
+    height: 32px;
+    background: #3c3c3c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-size: 13px;
+    user-select: none;
+    flex-shrink: 0;
+    width: 100%;
+    position: relative;
+    border-bottom: 1px solid #252526;
+}
+
+.nhrfm-top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 4px;
+}
+
+/* Mac Buttons */
+.nhrfm-mac-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    color: transparent;
+    transition: all 0.1s;
+    line-height: 1;
+}
+
+.nhrfm-mac-btn:hover {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.nhrfm-mac-close {
+    background: #FF5F56;
+    border: 1px solid #E0443E;
+}
+
+.nhrfm-mac-minimize {
+    background: #FFBD2E;
+    border: 1px solid #DEA123;
+}
+
+.nhrfm-mac-minimize.disabled {
+    background: #d1d1d1;
+    border: 1px solid #b5b5b5;
+    cursor: default;
+}
+
+.nhrfm-mac-maximize {
+    background: #27C93F;
+    border: 1px solid #1AAB29;
+}
+
+.nhrfm-mac-icon {
+    display: none;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: -1px;
+    /* Visual centering */
+    color: #4d0000;
+}
+
+.nhrfm-mac-maximize .nhrfm-mac-icon {
+    color: #006500;
+    font-size: 9px;
+}
+
+.nhrfm-mac-minimize .nhrfm-mac-icon {
+    color: #5c3c00;
+    font-size: 10px;
+    margin-top: -3px;
+    /* Adjust minus position */
+}
+
+.nhrfm-mac-btn:not(.disabled):hover .nhrfm-mac-icon {
+    display: flex;
+}
+
+.nhrfm-top-bar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #cccccc;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.nhrfm-top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    padding-right: 15px;
+    /* Increased spacing */
+}
+
+.nhrfm-icon-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     border-radius: 4px;
-    margin-top: 20px;
-    min-height: 600px;
+    color: #cccccc;
+    transition: background 0.1s;
+}
+
+.nhrfm-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content Area (Activity Bar + Sidebar + Editor) */
+.nhrfm-main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
 }
 
 .nhrfm-loading {
@@ -18,84 +186,97 @@
     justify-content: center;
     padding: 40px;
     gap: 10px;
+    flex: 1;
+    background: #1e1e1e;
+    color: #cccccc;
 }
 
 .nhrfm-loading .spinner {
     float: none;
     margin: 0;
+    background-color: #cccccc;
 }
 
-/* Main Layout */
-.nhrfm-main {
-    display: flex;
-    height: calc(100vh - 200px);
-    min-height: 600px;
-}
+
 
 /* Sidebar - File Tree */
 .nhrfm-sidebar {
-    width: 300px;
-    border-right: 1px solid #c3c4c7;
-    background: #f6f7f7;
+    width: 250px;
+    /* Standard VS Code sidebar width */
+    border-right: 1px solid #1E1E1E;
+    background: #252526;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    color: #CCCCCC;
+    transition: width 0.1s ease;
+}
+
+.nhrfm-sidebar.hidden {
+    width: 0;
+    border: none;
 }
 
 .nhrfm-sidebar-header {
-    padding: 12px 16px;
-    border-bottom: 1px solid #c3c4c7;
-    background: #fff;
+    padding: 10px 20px;
+    background: #252526;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #BBBBBB;
+    border: none;
+    height: 35px;
+    /* Fixed height to match tabs */
+    box-sizing: border-box;
 }
 
 .nhrfm-sidebar-header h3 {
     margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.nhrfm-type-select {
-    padding: 4px 8px;
-    border: 1px solid #c3c4c7;
-    border-radius: 4px;
-    background: #fff;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: inherit;
 }
 
 .nhrfm-tree-container {
     flex: 1;
     overflow: auto;
-    padding: 8px;
+    padding: 0;
 }
 
 /* File Tree Styles */
 .nhrfm-tree-item {
     display: flex;
     align-items: center;
-    padding: 6px 8px;
+    padding: 3px 10px 3px 0;
+    /* Added right padding */
     cursor: pointer;
-    border-radius: 4px;
     font-size: 13px;
     gap: 6px;
     user-select: none;
+    color: #CCCCCC;
+    border: 1px solid transparent;
 }
 
 .nhrfm-tree-item:hover {
-    background: #e0e0e0;
+    background: #2A2D2E;
 }
 
 .nhrfm-tree-item.selected {
-    background: #2271b1;
-    color: #fff;
+    background: #37373D;
+    color: #FFFFFF;
 }
 
 .nhrfm-tree-item .icon {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nhrfm-tree-item .name {
@@ -103,23 +284,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: 22px;
 }
 
 .nhrfm-tree-children {
-    padding-left: 16px;
+    padding-left: 0;
 }
 
 .nhrfm-tree-arrow {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    opacity: 0.8;
 }
 
 .nhrfm-tree-arrow svg {
-    transition: transform 0.15s ease;
+    transition: transform 0.1s ease;
+    width: 14px;
+    height: 14px;
 }
 
 .nhrfm-tree-arrow.expanded svg {
@@ -132,40 +317,656 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background: #1e1e1e;
+    min-width: 0;
 }
 
-.nhrfm-editor-header {
-    padding: 12px 16px;
-    border-bottom: 1px solid #c3c4c7;
-    background: #fff;
+/* Tabs */
+.nhrfm-tabs-container {
+    display: flex;
+    background: #252526;
+    height: 35px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.nhrfm-tabs-container::-webkit-scrollbar {
+    height: 3px;
+}
+
+.nhrfm-tabs-container::-webkit-scrollbar-thumb {
+    background: #424242;
+}
+
+.nhrfm-tab {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background: #2d2d2d;
+    color: #969696;
+    font-size: 13px;
+    cursor: pointer;
+    border-right: 1px solid #252526;
+    min-width: 120px;
+    max-width: 200px;
+    height: 100%;
+    user-select: none;
+    padding-right: 25px;
+    /* Space for close button */
+    position: relative;
+    /* For absolute positioning of close button if needed, but flex is fine */
+}
+
+.nhrfm-tab:hover {
+    background: #2d2d2d;
+    color: #cccccc;
+}
+
+.nhrfm-tab.active {
+    background: #1e1e1e;
+    color: #ffffff;
+    border-top: 1px solid #007ACC;
+    /* Active indicator */
+}
+
+.nhrfm-tab-icon {
+    margin-right: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.nhrfm-tab-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nhrfm-tab-close {
+    margin-left: 8px;
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 16px;
+    /* Big X */
+    font-weight: 300;
+    line-height: 1;
+}
+
+.nhrfm-tab:hover .nhrfm-tab-close,
+.nhrfm-tab.active .nhrfm-tab-close {
+    opacity: 1;
+}
+
+.nhrfm-tab-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    /* No bg by default, slight hover */
+    color: #ffffff;
+}
+
+.nhrfm-tab-modified {
+    width: 8px;
+    height: 8px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin-left: 6px;
+}
+
+/* Editor Container */
+.nhrfm-editor-container {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #1e1e1e;
+}
+
+.nhrfm-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #858585;
+    gap: 16px;
+    background: #1e1e1e;
+}
+
+.nhrfm-placeholder svg {
+    width: 128px;
+    height: 128px;
+    opacity: 0.1;
+    fill: #ffffff;
+}
+
+/* Toast Notifications */
+.nhrfm-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    z-index: 100000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    animation: nhrfm-slideIn 0.3s ease;
+}
+
+@keyframes nhrfm-slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nhrfm-toast.success {
+    background: #00a32a;
+}
+
+.nhrfm-toast.error {
+    background: #d63638;
+}
+
+.nhrfm-toast.warning {
+    background: #dba617;
+}
+
+/* Monaco Editor Container */
+.nhrfm-monaco-editor-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #1e1e1e;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nhrfm-monaco-editor-container .monaco-editor {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.nhrfm-monaco-editor-container .monaco-editor .monaco-editor-background {
+    background-color: #1e1e1e !important;
+}
+
+/* Buttons */
+.nhrfm-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.nhrfm-btn-primary {
+    background: #2271b1;
+    color: #fff;
+    border-color: #2271b1;
+}
+
+.nhrfm-btn-primary:hover {
+    background: #135e96;
+    border-color: #135e96;
+}
+
+.nhrfm-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Search box */
+.nhrfm-search {
+    padding: 6px 10px;
+    background: #252526;
+}
+
+.nhrfm-search input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid #3C3C3C;
+    background: #3C3C3C;
+    color: #CCCCCC;
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.nhrfm-search input:focus {
+    border-color: #007FD4;
+    box-shadow: 0 0 0 1px #007FD4;
+    outline: none;
+}
+
+.nhrfm-search input::placeholder {
+    color: #858585;
+}
+
+/* Status Bar */
+.nhrfm-status-bar {
+    padding: 2px 10px;
+    border-top: none;
+    background: #007ACC;
+    font-size: 12px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    height: 22px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Scrollbar */
+/* Scrollbar - VS Code Style */
+.nhrfm-tree-container::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.nhrfm-tree-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nhrfm-tree-container::-webkit-scrollbar-thumb {
+    background: transparent;
+    /* Hidden by default */
+    border-radius: 0;
+}
+
+.nhrfm-tree-container:hover::-webkit-scrollbar-thumb {
+    background: #424242;
+    /* Visible on hover */
+}
+
+.nhrfm-tree-container::-webkit-scrollbar-thumb:hover {
+    background: #4F4F4F;
+    /* Lighter on grab */
+}
+
+.nhrfm-tree-container::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Read-only and Sensitive file badges */
+.nhrfm-readonly-badge,
+.nhrfm-sensitive-badge {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    opacity: 0.6;
+}
+
+.nhrfm-readonly-badge svg,
+.nhrfm-sensitive-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+.nhrfm-sensitive-badge {
+    color: #dba617;
+}
+
+.nhrfm-tree-item.readonly .name,
+.nhrfm-tree-item.sensitive .name {
+    font-style: italic;
+}
+
+/* Delete button in tree */
+.nhrfm-delete-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    margin-left: 4px;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+}
+
+.nhrfm-tree-item:hover .nhrfm-delete-btn {
+    display: flex;
+}
+
+.nhrfm-delete-btn:hover {
+    opacity: 1;
+    color: #d63638;
+}
+
+.nhrfm-delete-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Delete confirmation */
+.nhrfm-delete-confirm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: #fff8e5;
+    border-radius: 4px;
+    margin: 4px 0;
+    font-size: 12px;
+    color: #50575e;
+}
+
+.nhrfm-confirm-yes,
+.nhrfm-confirm-no {
+    padding: 2px 8px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.nhrfm-confirm-yes {
+    background: #d63638;
+    color: #fff;
+    border-color: #d63638;
+}
+
+.nhrfm-confirm-yes:hover {
+    background: #b32d2e;
+}
+
+.nhrfm-confirm-no {
+    background: #f6f7f7;
+}
+
+.nhrfm-confirm-no:hover {
+    background: #e0e0e0;
+}
+
+.nhrfm-wrap {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 32px;
+    /* WP Admin Bar height */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 32px);
+    z-index: 99999;
+    box-sizing: border-box;
+    background: #1e1e1e;
+}
+
+.nhrfm-app-container {
+    background: #1e1e1e;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    /* Changed to row for Activity Bar */
+    color: #cccccc;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.nhrfm-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 10px;
+    flex: 1;
+    background: #1e1e1e;
+    color: #cccccc;
+}
+
+.nhrfm-loading .spinner {
+    float: none;
+    margin: 0;
+    background-color: #cccccc;
+    /* Make WP spinner visible on dark */
+}
+
+/* Main Layout */
+.nhrfm-main {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    background: #1e1e1e;
+}
+
+/* Activity Bar */
+.nhrfm-activity-bar {
+    width: 48px;
+    background: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+    border-right: 1px solid #252526;
+    flex-shrink: 0;
+}
+
+.nhrfm-activity-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    color: #858585;
+    transition: color 0.1s ease;
+}
+
+.nhrfm-activity-icon:hover {
+    color: #ffffff;
+}
+
+.nhrfm-activity-icon.active {
+    color: #ffffff;
+    border-left: 2px solid #ffffff;
+}
+
+.nhrfm-activity-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* Sidebar - File Tree */
+.nhrfm-sidebar {
+    width: 300px;
+    border-right: 1px solid #1E1E1E;
+    background: #252526;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    color: #CCCCCC;
+}
+
+.nhrfm-sidebar-header {
+    padding: 10px 20px;
+    background: #252526;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #BBBBBB;
+    border: none;
+}
+
+.nhrfm-sidebar-header h3 {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: inherit;
+}
+
+.nhrfm-type-select {
+    padding: 2px 4px;
+    border: 1px solid #3C3C3C;
+    border-radius: 2px;
+    background: #3C3C3C;
+    color: #CCCCCC;
+    font-size: 11px;
+    outline: none;
+}
+
+.nhrfm-tree-container {
+    flex: 1;
+    overflow: auto;
+    padding: 0;
+}
+
+/* File Tree Styles */
+.nhrfm-tree-item {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    cursor: pointer;
+    font-size: 13px;
+    gap: 6px;
+    user-select: none;
+    color: #CCCCCC;
+    border: 1px solid transparent;
+    /* For focus border */
+}
+
+.nhrfm-tree-item:hover {
+    background: #2A2D2E;
+}
+
+.nhrfm-tree-item.selected {
+    background: #37373D;
+    color: #FFFFFF;
+}
+
+.nhrfm-tree-item .icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nhrfm-tree-item .name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 22px;
+}
+
+.nhrfm-tree-children {
+    padding-left: 0;
+    /* Indentation handled by padding-left in item */
+}
+
+.nhrfm-tree-arrow {
+    width: 20px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.nhrfm-tree-arrow svg {
+    transition: transform 0.1s ease;
+    width: 14px;
+    height: 14px;
+}
+
+.nhrfm-tree-arrow.expanded svg {
+    transform: rotate(90deg);
+}
+
+/* Editor Panel */
+.nhrfm-editor-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #1e1e1e;
+    min-width: 0;
+    /* Crucial for flex children truncation */
+}
+
+.nhrfm-editor-header {
+    padding: 0;
+    border-bottom: none;
+    background: #252526;
+    /* Tab background */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 35px;
 }
 
 .nhrfm-file-info {
     display: flex;
     align-items: center;
     gap: 8px;
+    height: 100%;
+    background: #1e1e1e;
+    /* Active tab background */
+    padding: 0 15px;
+    border-top: 1px solid #007ACC;
+    /* Active tab indicator */
 }
 
 .nhrfm-file-path {
-    font-family: monospace;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: 13px;
-    color: #50575e;
+    color: #ffffff;
 }
 
 .nhrfm-file-modified {
-    background: #f0f6fc;
-    color: #2271b1;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 11px;
+    background: transparent;
+    color: #ffffff;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1;
+    width: 18px;
+    /* Increased width to prevent overlap */
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    /* Added margin */
+}
+
+.nhrfm-file-modified::before {
+    content: "•";
+    color: #ffffff;
+    font-size: 24px;
+    /* Larger dot */
+    line-height: 14px;
 }
 
 .nhrfm-editor-actions {
     display: flex;
     gap: 8px;
+    padding-right: 10px;
 }
 
 .nhrfm-editor-container {
@@ -176,6 +977,7 @@
     min-height: 500px;
     /* Ensure minimum height for editor */
     position: relative;
+    background: #1e1e1e;
 }
 
 .nhrfm-placeholder {
@@ -184,14 +986,17 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: #757575;
+    color: #858585;
+    /* VS Code placeholder text color */
     gap: 16px;
+    background: #1e1e1e;
 }
 
 .nhrfm-placeholder svg {
-    width: 64px;
-    height: 64px;
-    opacity: 0.5;
+    width: 128px;
+    height: 128px;
+    opacity: 0.1;
+    fill: #ffffff;
 }
 
 /* Toast Notifications */
@@ -288,39 +1093,47 @@
 
 /* Search box */
 .nhrfm-search {
-    padding: 8px;
-    border-bottom: 1px solid #c3c4c7;
+    padding: 6px 10px;
+    background: #252526;
 }
 
 .nhrfm-search input {
     width: 100%;
-    padding: 6px 10px;
-    border: 1px solid #c3c4c7;
-    border-radius: 4px;
-    font-size: 13px;
+    padding: 4px 6px;
+    border: 1px solid #3C3C3C;
+    background: #3C3C3C;
+    color: #CCCCCC;
+    border-radius: 2px;
+    font-size: 12px;
 }
 
 .nhrfm-search input:focus {
-    border-color: #2271b1;
-    box-shadow: 0 0 0 1px #2271b1;
+    border-color: #007FD4;
+    box-shadow: 0 0 0 1px #007FD4;
     outline: none;
+}
+
+.nhrfm-search input::placeholder {
+    color: #858585;
 }
 
 /* Status Bar */
 .nhrfm-status-bar {
-    padding: 6px 16px;
-    border-top: 1px solid #c3c4c7;
-    background: #f6f7f7;
+    padding: 2px 10px;
+    border-top: none;
+    background: #007ACC;
     font-size: 12px;
-    color: #50575e;
+    color: #FFFFFF;
     display: flex;
     justify-content: space-between;
+    height: 22px;
+    align-items: center;
 }
 
 /* Scrollbar */
 .nhrfm-tree-container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
 }
 
 .nhrfm-tree-container::-webkit-scrollbar-track {
@@ -328,12 +1141,16 @@
 }
 
 .nhrfm-tree-container::-webkit-scrollbar-thumb {
-    background: #c3c4c7;
-    border-radius: 4px;
+    background: #424242;
+    border-radius: 0;
 }
 
 .nhrfm-tree-container::-webkit-scrollbar-thumb:hover {
-    background: #8c8f94;
+    background: #4F4F4F;
+}
+
+.nhrfm-tree-container::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 /* Monaco Editor specific styles */
@@ -454,4 +1271,14 @@
 .nhrfm-type-select option {
     font-weight: 400;
     padding: 4px 8px;
+}
+
+.nhrfm-editor-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
