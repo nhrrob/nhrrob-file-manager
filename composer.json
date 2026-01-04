@@ -15,10 +15,22 @@
             "Nhrfm\\FileManager\\": "includes/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "deploy": "composer install --no-dev && wp dist-archive . && composer install",
         "dev": "composer install",
         "build": "composer install --no-dev"
+    },
+    "require-dev": {
+        "pestphp/pest": "4.x-dev"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
-
