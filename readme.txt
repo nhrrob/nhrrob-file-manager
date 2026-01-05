@@ -4,7 +4,7 @@ Tags: file manager, edit files, browse files, wp-config.php editor, vs code edit
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,7 +74,10 @@ No. The file manager only loads on its dedicated admin page and has zero impact 
 
 == Changelog ==
 
-= 1.0.3 - 05/01/2026 =
+= 1.0.4 - 05/01/2026 =
+- Fixed: Vendor folder removed from gitignore
+
+= 1.0.3 - 04/01/2026 =
 - Fixed: VS Code editor issues
 
 = 1.0.2 - 02/01/2026 =

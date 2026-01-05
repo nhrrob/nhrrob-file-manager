@@ -5,7 +5,7 @@
  * Description: Browse and edit WordPress files with ease. Modern React-powered file manager for WordPress administrators.
  * Author: Nazmul Hasan Robin
  * Author URI: https://profiles.wordpress.org/nhrrob/
- * Version: 1.0.3
+ * Version: 1.0.4
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Text Domain: nhrrob-file-manager
@@ -27,7 +27,7 @@ final class Nhrfm_File_Manager {
      *
      * @var string
      */
-    const NHRFM_VERSION = '1.0.3';
+    const NHRFM_VERSION = '1.0.4';
 
     /**
      * Class constructor
